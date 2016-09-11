@@ -1,0 +1,16 @@
+version: '2'
+services:
+  cuboid:
+    build: ./bot
+    volumes:
+      - ./config:/config
+    depends_on:
+      - cuboiddb
+    command: ['npm', 'start', '/config/local.json']
+  cuboiddb:
+    image: mysql:5.7
+    volumes:
+      - ./database:/var/lib/mysql
+      - ./dbinit:/docker-entrypoint-initdb.d
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
